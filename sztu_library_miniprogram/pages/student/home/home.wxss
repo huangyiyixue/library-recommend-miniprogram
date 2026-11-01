@@ -1,0 +1,88 @@
+/* pages/student/home/home.wxss */
+/* 顶部问候 */
+.hero {
+  background: linear-gradient(135deg, #0B4DA2, #2E7BF6);
+  border-radius: 20rpx;
+  padding: 32rpx;
+  color: #FFFFFF;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+.hero-title { font-size: 36rpx; font-weight: 600; }
+.hero-sub { font-size: 24rpx; opacity: 0.85; margin-top: 8rpx; }
+.hero-badge {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2rpx solid rgba(255, 255, 255, 0.5);
+  border-radius: 999rpx;
+  padding: 10rpx 22rpx;
+  font-size: 24rpx;
+}
+
+/* 推荐 */
+.rec-tip { font-size: 22rpx; color: #8A9099; margin-bottom: 16rpx; }
+.reason-row { display: flex; align-items: center; margin-top: 10rpx; }
+.reason-text { font-size: 22rpx; color: #0B4DA2; }
+.fav { font-size: 34rpx; color: #D8DCE3; padding: 0 8rpx; }
+.fav-on { color: #E0245E; }
+.dislike {
+  font-size: 22rpx; color: #8A9099;
+  border: 2rpx solid #E5E8EE; border-radius: 999rpx;
+  padding: 4rpx 16rpx;
+}
+
+/* 热门榜单 */
+.hot-item {
+  display: flex; align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid #F2F4F7;
+}
+.hot-item:last-child { border-bottom: none; }
+.hot-rank {
+  width: 44rpx; height: 44rpx; line-height: 44rpx;
+  text-align: center; border-radius: 10rpx;
+  font-size: 24rpx; font-weight: 600; margin-right: 18rpx;
+}
+.rank-top { background: #0B4DA2; color: #FFFFFF; }
+.rank-normal { background: #F2F4F7; color: #6B7280; }
+.hot-title { flex: 1; font-size: 28rpx; }
+
+/* 弹窗 */
+.mask {
+  position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999;
+}
+.modal {
+  width: 640rpx;
+  max-height: 84vh;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  display: flex; flex-direction: column;
+}
+.modal-title { font-size: 34rpx; font-weight: 600; text-align: center; }
+.modal-sub { font-size: 22rpx; color: #8A9099; text-align: center; margin: 10rpx 0 20rpx; }
+.modal-body { flex: 1; }
+.form-block { margin-bottom: 28rpx; }
+.form-label { font-size: 26rpx; font-weight: 600; margin-bottom: 14rpx; }
+.chips { display: flex; flex-wrap: wrap; }
+.chip {
+  padding: 10rpx 22rpx;
+  margin: 0 16rpx 16rpx 0;
+  border-radius: 999rpx;
+  background: #F2F4F7;
+  color: #4B5563;
+  font-size: 24rpx;
+}
+.chip-on { background: #0B4DA2; color: #FFFFFF; }
+.modal-input {
+  border: 2rpx solid #E5E8EE;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  font-size: 26rpx;
+  margin-top: 8rpx;
+}
+.ph { color: #B8BEC7; }
+.modal-actions { display: flex; margin-top: 20rpx; }
+.modal-btn { flex: 1; margin: 0 10rpx; }

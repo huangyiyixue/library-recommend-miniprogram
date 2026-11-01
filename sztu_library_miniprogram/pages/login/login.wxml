@@ -1,0 +1,66 @@
+<!-- pages/login/login.wxml —— 登录页（复刻深技大统一身份认证页面样式，仅做视觉模拟） -->
+<view class="auth">
+
+  <!-- 顶部校徽区域 -->
+  <view class="auth-header">
+    <view class="logo">SZTU</view>
+    <view class="school">深圳技术大学</view>
+    <view class="sub">统一身份认证平台 · 图书馆系统</view>
+  </view>
+
+  <!-- 登录表单卡片 -->
+  <view class="auth-card">
+    <view class="card-title">账号登录</view>
+
+    <view class="input-line">
+      <text class="input-icon">👤</text>
+      <input
+        class="input"
+        type="text"
+        placeholder="请输入学号 / 工号"
+        placeholder-class="ph"
+        value="{{id}}"
+        bindinput="onIdInput"
+      />
+    </view>
+
+    <view class="input-line">
+      <text class="input-icon">🔒</text>
+      <input
+        class="input"
+        password="{{!showPwd}}"
+        placeholder="请输入密码"
+        placeholder-class="ph"
+        value="{{password}}"
+        bindinput="onPwdInput"
+      />
+      <text class="eye" bindtap="togglePwd">{{showPwd ? '🙈' : '👁'}}</text>
+    </view>
+
+    <view class="agree">
+      <text class="agree-box {{agreed ? 'checked' : ''}}" bindtap="toggleAgree">✓</text>
+      <text class="agree-text">我已阅读并同意《图书馆服务协议》（模拟）</text>
+    </view>
+
+    <view class="btn-primary {{canLogin ? '' : 'btn-disabled'}}" bindtap="onLogin">登 录</view>
+
+    <!-- 演示用：一键填入模拟账号 -->
+    <view class="quick">
+      <text class="quick-btn" bindtap="fillStudent">学生体验账号</text>
+      <text class="quick-btn" bindtap="fillAdmin">管理员体验账号</text>
+    </view>
+  </view>
+
+  <!-- 免责声明：课程原型，不对接真实统一认证 -->
+  <view class="notice">
+    <view class="notice-title">⚠️ 原型说明</view>
+    <view class="notice-text">
+      本页面为课程作业原型，<text class="strong">不会</text>对接学校真实统一认证接口，
+      <text class="strong">不收集</text>任何真实学号与密码，账号校验完全在本地模拟完成。
+    </view>
+    <view class="notice-account">
+      学生：2025001 / 123456　　管理员：admin01 / admin123
+    </view>
+  </view>
+
+</view>

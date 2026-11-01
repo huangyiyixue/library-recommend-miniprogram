@@ -1,0 +1,108 @@
+/* pages/admin/dashboard/dashboard.wxss */
+.admin-header {
+  background: linear-gradient(135deg, #0B4DA2, #2E7BF6);
+  border-radius: 20rpx;
+  padding: 32rpx;
+  color: #FFFFFF;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+.admin-title { font-size: 36rpx; font-weight: 600; }
+.admin-sub { font-size: 22rpx; opacity: 0.85; margin-top: 8rpx; }
+.logout {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999rpx;
+  padding: 10rpx 22rpx;
+  font-size: 24rpx;
+}
+
+/* 筛选 */
+.filters { display: flex; }
+.picker {
+  flex: 1;
+  background: #F2F4F7;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  font-size: 24rpx;
+  color: #1F2329;
+  margin-right: 20rpx;
+}
+.picker:last-child { margin-right: 0; }
+.filter-tip { font-size: 22rpx; color: #0B4DA2; margin-top: 16rpx; }
+
+/* 总览卡片 */
+.stat-grid { display: flex; flex-wrap: wrap; margin-bottom: 24rpx; }
+.stat-item {
+  width: 48%;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin: 0 2% 20rpx 0;
+  box-sizing: border-box;
+  box-shadow: 0 6rpx 20rpx rgba(15, 34, 67, 0.06);
+}
+.stat-item:nth-child(2n) { margin-right: 0; }
+.stat-value { font-size: 44rpx; font-weight: 700; color: #0B4DA2; }
+.stat-label { font-size: 24rpx; color: #6B7280; margin-top: 8rpx; }
+
+/* 条形图 */
+.bar-row { display: flex; align-items: center; margin-bottom: 20rpx; }
+.bar-label { width: 200rpx; font-size: 22rpx; color: #4B5563; }
+.bar-track {
+  flex: 1;
+  height: 24rpx;
+  background: #F2F4F7;
+  border-radius: 999rpx;
+  overflow: hidden;
+  margin: 0 16rpx;
+}
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2E7BF6, #0B4DA2);
+  border-radius: 999rpx;
+}
+.bar-active { background: linear-gradient(90deg, #FFA940, #D97008); }
+.bar-green { background: linear-gradient(90deg, #4ECB8F, #1A9C58); }
+.bar-num { width: 90rpx; text-align: right; font-size: 22rpx; color: #6B7280; }
+
+/* 趋势柱状图 */
+.trend { display: flex; align-items: flex-end; height: 320rpx; }
+.trend-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+.trend-num { font-size: 20rpx; color: #6B7280; }
+.trend-track {
+  flex: 1;
+  width: 36rpx;
+  background: #F2F4F7;
+  border-radius: 8rpx;
+  display: flex; align-items: flex-end;
+  margin: 8rpx 0;
+  overflow: hidden;
+}
+.trend-bar {
+  width: 100%;
+  background: linear-gradient(180deg, #2E7BF6, #0B4DA2);
+  border-radius: 8rpx;
+}
+.trend-month { font-size: 20rpx; color: #8A9099; }
+
+/* 热词 */
+.word-row {
+  display: flex; align-items: center;
+  padding: 14rpx 0;
+  border-bottom: 2rpx solid #F2F4F7;
+}
+.word-row:last-child { border-bottom: none; }
+.word-rank {
+  width: 40rpx; height: 40rpx; line-height: 40rpx;
+  text-align: center; border-radius: 8rpx;
+  background: #EEF3FB; color: #0B4DA2;
+  font-size: 22rpx; font-weight: 600;
+  margin-right: 16rpx;
+}
+.word-name { flex: 1; font-size: 26rpx; }
+
+/* 采购建议 */
+.advice-item { padding: 18rpx 0; border-bottom: 2rpx solid #F2F4F7; }
+.advice-item:last-child { border-bottom: none; }
+.advice-title { font-size: 28rpx; font-weight: 600; }
+.advice-reason { margin-top: 8rpx; }

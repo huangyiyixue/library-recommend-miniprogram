@@ -1,0 +1,73 @@
+<!-- pages/student/detail/detail.wxml —— 书籍详情页：简介 / 馆藏 / 状态 / 收藏 -->
+<view class="page" wx:if="{{book}}">
+
+  <!-- 书籍概览 -->
+  <view class="card detail-top">
+    <view class="big-cover" style="background:{{book.color}}">{{book.coverText}}</view>
+    <view class="detail-info">
+      <view class="detail-title">{{book.title}}</view>
+      <view class="detail-author">{{book.author}}</view>
+      <view class="tags-row">
+        <text class="tag">{{book.category}}</text>
+        <text class="tag tag-gray">{{book.type}}</text>
+        <text class="tag tag-gray">{{book.style}}</text>
+      </view>
+      <view class="status-row">
+        <text class="tag {{book.available > 0 ? 'tag-green' : 'tag-red'}}">{{book.status}}</text>
+        <text class="muted">热度 {{book.hot}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 书籍简介 -->
+  <view class="card">
+    <view class="section-header"><text class="section-title">书籍简介</text></view>
+    <view class="desc-text">{{book.desc}}</view>
+    <view class="divider"></view>
+    <view class="kv"><text class="k">标签</text><text class="v">{{book.tagText}}</text></view>
+    <view class="kv"><text class="k">适用学院</text><text class="v">{{book.collegeText}}</text></view>
+  </view>
+
+  <!-- 馆藏信息 -->
+  <view class="card">
+    <view class="section-header"><text class="section-title">馆藏信息</text></view>
+    <view class="kv"><text class="k">馆藏地点</text><text class="v">{{book.location}}</text></view>
+    <view class="kv"><text class="k">馆藏总量</text><text class="v">{{book.total}} 册</text></view>
+    <view class="kv"><text class="k">可借数量</text><text class="v">{{book.available}} 册</text></view>
+    <view class="kv"><text class="k">借阅状态</text>
+      <text class="v {{book.available > 0 ? 'ok' : 'no'}}">
+        {{book.available > 0 ? '可借（模拟数据）' : '已借完（模拟数据）'}}
+      </text>
+    </view>
+    <view class="tip">提示：馆藏与借阅状态均为模拟数据，原型不实现真实借阅流程。</view>
+  </view>
+
+  <!-- 同类推荐 -->
+  <view class="card" wx:if="{{related.length}}">
+    <view class="section-header"><text class="section-title">同类书籍推荐</text></view>
+    <view
+      class="book-item"
+      wx:for="{{related}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goDetail"
+    >
+      <view class="cover" style="background:{{item.color}}">{{item.coverText}}</view>
+      <view class="book-main">
+        <view class="book-title ellipsis">{{item.title}}</view>
+        <view class="book-meta">{{item.author}} · {{item.category}}</view>
+        <text class="tag {{item.available > 0 ? 'tag-orange' : 'tag-red'}}">{{item.status}}</text>
+      </view>
+    </view>
+  </view>
+
+</view>
+
+<!-- 底部操作栏：收藏 / 返回 -->
+<view class="bottom-bar" wx:if="{{book}}">
+  <view class="bar-fav {{isFav ? 'bar-fav-on' : ''}}" bindtap="toggleFav">
+    <text class="heart">♥</text>
+    <text class="bar-text">{{isFav ? '已收藏' : '收藏'}}</text>
+  </view>
+  <view class="bar-btn" bindtap="goBack">返回列表</view>
+</view>

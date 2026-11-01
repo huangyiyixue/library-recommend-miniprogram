@@ -1,0 +1,84 @@
+<!-- pages/student/search/search.wxml —— 学生端：书籍搜索（模糊匹配书名 / 作者） -->
+<view class="page">
+
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索书名 / 作者 / 分类"
+        placeholder-class="ph"
+        value="{{keyword}}"
+        focus="{{true}}"
+        bindinput="onKeywordInput"
+        bindconfirm="doSearch"
+      />
+      <text class="clear" wx:if="{{keyword}}" catchtap="clearKeyword">×</text>
+    </view>
+    <view class="search-btn" bindtap="doSearch">搜索</view>
+  </view>
+
+  <!-- 历史搜索记录 -->
+  <view class="card" wx:if="{{history.length}}">
+    <view class="section-header">
+      <text class="section-title">历史搜索</text>
+      <text class="section-more" catchtap="clearHistory">一键清空</text>
+    </view>
+    <view class="chips">
+      <text
+        class="chip"
+        wx:for="{{history}}"
+        wx:key="*this"
+        data-word="{{item}}"
+        catchtap="tapHistory"
+      >{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 热门搜索 -->
+  <view class="card" wx:if="{{!searched}}">
+    <view class="section-header">
+      <text class="section-title">🔥 大家都在搜</text>
+    </view>
+    <view class="chips">
+      <text
+        class="chip chip-hot"
+        wx:for="{{hotWords}}"
+        wx:key="*this"
+        data-word="{{item}}"
+        catchtap="tapHistory"
+      >{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 搜索结果 -->
+  <view class="card" wx:if="{{searched}}">
+    <view class="section-header">
+      <text class="section-title">搜索结果</text>
+      <text class="muted">共 {{results.length}} 本</text>
+    </view>
+
+    <view wx:if="{{!results.length}}" class="empty">没有找到相关书籍，换个关键词试试～</view>
+
+    <view
+      class="book-item"
+      wx:for="{{results}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goDetail"
+    >
+      <view class="cover" style="background:{{item.color}}">{{item.coverText}}</view>
+      <view class="book-main">
+        <view class="book-title ellipsis">{{item.title}}</view>
+        <view class="book-meta">{{item.author}} · {{item.category}} · {{item.type}}</view>
+        <view class="book-desc ellipsis">{{item.desc}}</view>
+        <view class="row-between" style="margin-top:10rpx">
+          <text class="tag {{item.available > 0 ? 'tag-orange' : 'tag-red'}}">{{item.status}}</text>
+          <text class="muted">馆藏 {{item.total}} 册 · 可借 {{item.available}} 册</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

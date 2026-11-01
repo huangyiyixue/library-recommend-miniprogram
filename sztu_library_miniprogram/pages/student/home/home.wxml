@@ -1,0 +1,162 @@
+<!-- pages/student/home/home.wxml —— 学生端首页：个性化推荐 + 热门榜单 -->
+<view class="page">
+
+  <!-- 顶部问候区 -->
+  <view class="hero">
+    <view class="hero-main">
+      <view class="hero-title">你好，{{user.name}}</view>
+      <view class="hero-sub">{{user.college}} · {{user.grade}} · {{user.major}}</view>
+    </view>
+    <view class="hero-badge" bindtap="openPrefModal">偏好设置</view>
+  </view>
+
+  <!-- 个性化推荐 -->
+  <view class="card">
+    <view class="section-header">
+      <text class="section-title">为你推荐</text>
+      <text class="section-more" bindtap="refreshRec">换一批 ⟳</text>
+    </view>
+    <view class="rec-tip" wx:if="{{hasPreference}}">已结合你的偏好、专业、借阅与搜索记录生成</view>
+    <view class="rec-tip" wx:else>你还未设置阅读偏好，当前以热门与专业相关度推荐</view>
+
+    <view wx:if="{{loadingRec}}" class="empty">推荐计算中...</view>
+
+    <view
+      class="book-item"
+      wx:for="{{recommendations}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goDetail"
+    >
+      <view class="cover" style="background:{{item.color}}">{{item.coverText}}</view>
+      <view class="book-main">
+        <view class="row-between">
+          <text class="book-title ellipsis">{{item.title}}</text>
+          <text class="fav {{item.isFav ? 'fav-on' : ''}}" catchtap="toggleFav" data-id="{{item.id}}">♥</text>
+        </view>
+        <view class="book-meta">{{item.author}} · {{item.category}} · {{item.type}}</view>
+        <!-- 推荐理由标签 -->
+        <view class="reason-row">
+          <text class="tag tag-green">{{item.reasonTag}}</text>
+          <text class="reason-text">{{item.reason}}</text>
+        </view>
+        <view class="row-between">
+          <text class="tag {{item.available > 0 ? 'tag-orange' : 'tag-red'}}">{{item.status}}</text>
+          <text class="dislike" catchtap="dislike" data-id="{{item.id}}">不感兴趣</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门书籍榜单 -->
+  <view class="card">
+    <view class="section-header">
+      <text class="section-title">🔥 热门借阅榜单</text>
+      <text class="muted">Top {{hotList.length}}</text>
+    </view>
+    <view
+      class="hot-item"
+      wx:for="{{hotList}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goDetail"
+    >
+      <text class="hot-rank rank-{{index < 3 ? 'top' : 'normal'}}">{{index + 1}}</text>
+      <text class="hot-title ellipsis">{{item.title}}</text>
+      <text class="muted">热度 {{item.hot}}</text>
+    </view>
+  </view>
+
+</view>
+
+<!-- 首次登录阅读偏好弹窗（可跳过） -->
+<view class="mask" wx:if="{{showPrefModal}}" catchtap="noop">
+  <view class="modal" catchtap="noop">
+    <view class="modal-title">完善阅读偏好</view>
+    <view class="modal-sub">帮助我们更懂你的阅读口味（可跳过，之后在"我的"里修改）</view>
+
+    <scroll-view class="modal-body" scroll-y>
+      <view class="form-block">
+        <view class="form-label">喜欢的书籍类型</view>
+        <view class="chips">
+          <text
+            class="chip {{item.selected ? 'chip-on' : ''}}"
+            wx:for="{{chipTypes}}"
+            wx:key="name"
+            data-field="types"
+            data-value="{{item.name}}"
+            catchtap="toggleChip"
+          >{{item.name}}</text>
+        </view>
+      </view>
+
+      <view class="form-block">
+        <view class="form-label">喜欢的风格</view>
+        <view class="chips">
+          <text
+            class="chip {{item.selected ? 'chip-on' : ''}}"
+            wx:for="{{chipStyles}}"
+            wx:key="name"
+            data-field="styles"
+            data-value="{{item.name}}"
+            catchtap="toggleChip"
+          >{{item.name}}</text>
+        </view>
+      </view>
+
+      <view class="form-block">
+        <view class="form-label">喜爱的作家</view>
+        <view class="chips">
+          <text
+            class="chip {{item.selected ? 'chip-on' : ''}}"
+            wx:for="{{chipAuthors}}"
+            wx:key="name"
+            data-field="authors"
+            data-value="{{item.name}}"
+            catchtap="toggleChip"
+          >{{item.name}}</text>
+        </view>
+      </view>
+
+      <view class="form-block">
+        <view class="form-label">阅读用途</view>
+        <view class="chips">
+          <text
+            class="chip {{item.selected ? 'chip-on' : ''}}"
+            wx:for="{{chipPurposes}}"
+            wx:key="name"
+            data-field="purpose"
+            data-value="{{item.name}}"
+            catchtap="toggleChip"
+          >{{item.name}}</text>
+        </view>
+      </view>
+
+      <view class="form-block">
+        <view class="form-label">喜欢的书籍（输入书名后回车添加）</view>
+        <view class="chips">
+          <text
+            class="chip chip-on"
+            wx:for="{{formFavoriteBooks}}"
+            wx:key="*this"
+            data-value="{{item}}"
+            catchtap="removeFavBook"
+          >{{item}} ×</text>
+        </view>
+        <input
+          class="modal-input"
+          placeholder="例如：三体（全集）"
+          placeholder-class="ph"
+          value="{{bookInput}}"
+          bindinput="onBookInput"
+          bindconfirm="addFavBook"
+        />
+      </view>
+    </scroll-view>
+
+    <view class="modal-actions">
+      <view class="btn-plain modal-btn" catchtap="skipPref">跳过</view>
+      <view class="btn-primary modal-btn" catchtap="savePref">保存偏好</view>
+    </view>
+  </view>
+</view>

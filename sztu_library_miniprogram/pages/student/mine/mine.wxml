@@ -1,0 +1,159 @@
+<!-- pages/student/mine/mine.wxml —— 个人主页：收藏 / 借阅 / 偏好 / 搜索记录 -->
+<view class="page">
+
+  <!-- 用户信息 -->
+  <view class="user-card">
+    <view class="avatar">{{user.avatarText}}</view>
+    <view class="user-info">
+      <view class="user-name">{{user.name}}</view>
+      <view class="muted user-meta">学号 {{user.id}} · {{user.role === 'admin' ? '管理员' : '学生'}}</view>
+      <view class="muted user-meta">{{user.college}} · {{user.grade}} · {{user.major}}</view>
+    </view>
+    <view class="logout" bindtap="logout">退出登录</view>
+  </view>
+
+  <!-- 标签分页：我的收藏 / 历史借阅 -->
+  <view class="tabs">
+    <view class="tab {{tab === 'fav' ? 'tab-on' : ''}}" data-tab="fav" bindtap="switchTab">我的收藏 ♥（{{favorites.length}}）</view>
+    <view class="tab {{tab === 'borrow' ? 'tab-on' : ''}}" data-tab="borrow" bindtap="switchTab">历史借阅（{{borrows.length}}）</view>
+  </view>
+
+  <!-- 我的收藏 -->
+  <view class="card" wx:if="{{tab === 'fav'}}">
+    <view wx:if="{{!favorites.length}}" class="empty">还没有收藏书籍，去首页看看推荐吧～</view>
+    <view
+      class="book-item"
+      wx:for="{{favorites}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goDetail"
+    >
+      <view class="cover" style="background:{{item.color}}">{{item.coverText}}</view>
+      <view class="book-main">
+        <view class="row-between">
+          <text class="book-title ellipsis">{{item.title}}</text>
+          <text class="fav fav-on" catchtap="unfav" data-id="{{item.id}}">♥</text>
+        </view>
+        <view class="book-meta">{{item.author}} · {{item.category}}</view>
+        <text class="tag {{item.available > 0 ? 'tag-orange' : 'tag-red'}}">{{item.status}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 历史借阅 -->
+  <view class="card" wx:if="{{tab === 'borrow'}}">
+    <view wx:if="{{!borrows.length}}" class="empty">暂无借阅记录（模拟数据）</view>
+    <view class="borrow-item" wx:for="{{borrows}}" wx:key="bookId" data-id="{{item.bookId}}" bindtap="goDetail">
+      <view class="borrow-left">
+        <view class="book-title ellipsis">{{item.title}}</view>
+        <view class="muted">{{item.author}} · {{item.category}}</view>
+      </view>
+      <view class="borrow-right">
+        <text class="tag {{item.status === '借阅中' ? 'tag-orange' : 'tag-gray'}}">{{item.status}}</text>
+        <view class="muted" style="margin-top:6rpx">{{item.date}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 阅读偏好模块 -->
+  <view class="card">
+    <view class="section-header">
+      <text class="section-title">阅读偏好</text>
+      <view class="pref-actions">
+        <text class="section-more" bindtap="openPrefModal">修改</text>
+        <text class="section-more danger" bindtap="resetPref">重置</text>
+      </view>
+    </view>
+
+    <view wx:if="{{!hasPreference}}" class="empty">尚未设置阅读偏好，点击"修改"完善推荐画像</view>
+
+    <view wx:else>
+      <view class="pref-row" wx:if="{{pref.types.length}}">
+        <text class="pref-k">书籍类型</text>
+        <text class="chip" wx:for="{{pref.types}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="pref-row" wx:if="{{pref.styles.length}}">
+        <text class="pref-k">风格</text>
+        <text class="chip" wx:for="{{pref.styles}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="pref-row" wx:if="{{pref.authors.length}}">
+        <text class="pref-k">作家</text>
+        <text class="chip" wx:for="{{pref.authors}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="pref-row" wx:if="{{pref.purpose}}">
+        <text class="pref-k">阅读用途</text>
+        <text class="chip">{{pref.purpose}}</text>
+      </view>
+      <view class="pref-row" wx:if="{{pref.favoriteBooks.length}}">
+        <text class="pref-k">喜欢的书</text>
+        <text class="chip" wx:for="{{pref.favoriteBooks}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 历史搜索记录 -->
+  <view class="card">
+    <view class="section-header">
+      <text class="section-title">历史搜索记录</text>
+      <text class="section-more" bindtap="clearHistory">一键清空</text>
+    </view>
+    <view wx:if="{{!searchHistory.length}}" class="empty">暂无搜索记录</view>
+    <view class="chips" wx:else>
+      <text class="chip" wx:for="{{searchHistory}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+</view>
+
+<!-- 阅读偏好编辑弹窗 -->
+<view class="mask" wx:if="{{showPrefModal}}" catchtap="noop">
+  <view class="modal" catchtap="noop">
+    <view class="modal-title">修改阅读偏好</view>
+    <view class="modal-sub">修改后将立即影响首页推荐结果</view>
+
+    <scroll-view class="modal-body" scroll-y>
+      <view class="form-block">
+        <view class="form-label">喜欢的书籍类型</view>
+        <view class="chips">
+          <text class="chip {{item.selected ? 'chip-on' : ''}}" wx:for="{{chipTypes}}" wx:key="name"
+            data-field="types" data-value="{{item.name}}" catchtap="toggleChip">{{item.name}}</text>
+        </view>
+      </view>
+      <view class="form-block">
+        <view class="form-label">喜欢的风格</view>
+        <view class="chips">
+          <text class="chip {{item.selected ? 'chip-on' : ''}}" wx:for="{{chipStyles}}" wx:key="name"
+            data-field="styles" data-value="{{item.name}}" catchtap="toggleChip">{{item.name}}</text>
+        </view>
+      </view>
+      <view class="form-block">
+        <view class="form-label">喜爱的作家</view>
+        <view class="chips">
+          <text class="chip {{item.selected ? 'chip-on' : ''}}" wx:for="{{chipAuthors}}" wx:key="name"
+            data-field="authors" data-value="{{item.name}}" catchtap="toggleChip">{{item.name}}</text>
+        </view>
+      </view>
+      <view class="form-block">
+        <view class="form-label">阅读用途</view>
+        <view class="chips">
+          <text class="chip {{item.selected ? 'chip-on' : ''}}" wx:for="{{chipPurposes}}" wx:key="name"
+            data-field="purpose" data-value="{{item.name}}" catchtap="toggleChip">{{item.name}}</text>
+        </view>
+      </view>
+      <view class="form-block">
+        <view class="form-label">喜欢的书籍（输入后回车添加，点击标签删除）</view>
+        <view class="chips">
+          <text class="chip chip-on" wx:for="{{formFavoriteBooks}}" wx:key="*this"
+            data-value="{{item}}" catchtap="removeFavBook">{{item}} ×</text>
+        </view>
+        <input class="modal-input" placeholder="例如：三体（全集）" placeholder-class="ph"
+          value="{{bookInput}}" bindinput="onBookInput" bindconfirm="addFavBook" />
+      </view>
+    </scroll-view>
+
+    <view class="modal-actions">
+      <view class="btn-plain modal-btn" catchtap="closePref">取消</view>
+      <view class="btn-primary modal-btn" catchtap="savePref">保存</view>
+    </view>
+  </view>
+</view>

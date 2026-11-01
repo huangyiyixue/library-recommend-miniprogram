@@ -1,0 +1,53 @@
+/* pages/student/detail/detail.wxss */
+.detail-top { display: flex; }
+.big-cover {
+  width: 200rpx; height: 270rpx;
+  border-radius: 16rpx;
+  color: #FFFFFF;
+  font-size: 72rpx; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.detail-info { flex: 1; margin-left: 28rpx; overflow: hidden; }
+.detail-title { font-size: 34rpx; font-weight: 600; }
+.detail-author { font-size: 26rpx; color: #6B7280; margin-top: 8rpx; }
+.tags-row { margin-top: 16rpx; }
+.status-row { margin-top: 16rpx; display: flex; align-items: center; }
+
+.desc-text { font-size: 26rpx; color: #4B5563; line-height: 1.8; }
+
+.kv { display: flex; padding: 12rpx 0; font-size: 26rpx; }
+.k { width: 160rpx; color: #8A9099; }
+.v { flex: 1; color: #1F2329; }
+.v.ok { color: #1A9C58; }
+.v.no { color: #D93636; }
+.tip { font-size: 22rpx; color: #B7791F; background: #FFF9EC; padding: 16rpx; border-radius: 12rpx; margin-top: 16rpx; }
+
+/* 底部操作栏 */
+.bottom-bar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  height: 110rpx;
+  background: #FFFFFF;
+  border-top: 2rpx solid #F2F4F7;
+  display: flex; align-items: center;
+  padding: 0 28rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bar-fav {
+  display: flex; flex-direction: column; align-items: center;
+  width: 140rpx;
+  color: #8A9099;
+}
+.bar-fav-on { color: #E0245E; }
+.heart { font-size: 40rpx; }
+.bar-text { font-size: 22rpx; margin-top: 2rpx; }
+.bar-btn {
+  flex: 1;
+  margin-left: 24rpx;
+  background: linear-gradient(90deg, #0B4DA2, #2E7BF6);
+  color: #FFFFFF;
+  border-radius: 44rpx;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+}

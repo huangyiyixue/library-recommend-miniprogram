@@ -1,0 +1,112 @@
+<!-- pages/admin/dashboard/dashboard.wxml —— 管理员端：数据统计看板（模拟数据 + 筛选） -->
+<view class="page">
+
+  <!-- 顶部 -->
+  <view class="admin-header">
+    <view>
+      <view class="admin-title">图书馆数据看板</view>
+      <view class="muted admin-sub">{{user.name}} · 采购决策辅助（模拟数据）</view>
+    </view>
+    <view class="logout" bindtap="logout">退出登录</view>
+  </view>
+
+  <!-- 筛选区：学院 + 年级 -->
+  <view class="card">
+    <view class="section-header">
+      <text class="section-title">筛选维度</text>
+      <text class="section-more" bindtap="resetFilter">重置</text>
+    </view>
+    <view class="filters">
+      <picker mode="selector" range="{{colleges}}" value="{{collegeIndex}}" bindchange="onCollegeChange">
+        <view class="picker">学院：{{colleges[collegeIndex]}} ▾</view>
+      </picker>
+      <picker mode="selector" range="{{grades}}" value="{{gradeIndex}}" bindchange="onGradeChange">
+        <view class="picker">年级：{{grades[gradeIndex]}} ▾</view>
+      </picker>
+    </view>
+    <view class="filter-tip">当前筛选：{{colleges[collegeIndex]}} · {{grades[gradeIndex]}}</view>
+  </view>
+
+  <!-- 数据总览（stats 未就绪时不渲染） -->
+  <block wx:if="{{stats}}">
+  <view class="stat-grid">
+    <view class="stat-item">
+      <view class="stat-value">{{stats.overview.totalBorrow}}</view>
+      <view class="stat-label">总借阅量</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{stats.overview.activeReaders}}</view>
+      <view class="stat-label">活跃读者</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{stats.overview.totalBooks}}</view>
+      <view class="stat-label">馆藏总量</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{stats.overview.availableRate}}%</view>
+      <view class="stat-label">可借率</view>
+    </view>
+  </view>
+
+  <!-- 各学院借阅量（条形图） -->
+  <view class="card">
+    <view class="section-header"><text class="section-title">各学院借阅量</text></view>
+    <view class="bar-row" wx:for="{{stats.collegeBorrow}}" wx:key="name">
+      <view class="bar-label">{{item.name}}</view>
+      <view class="bar-track">
+        <view class="bar-fill {{item.active ? 'bar-active' : ''}}" style="width:{{item.width}}%"></view>
+      </view>
+      <view class="bar-num">{{item.value}}</view>
+    </view>
+  </view>
+
+  <!-- 书籍分类借阅占比 -->
+  <view class="card">
+    <view class="section-header"><text class="section-title">分类借阅占比</text></view>
+    <view class="bar-row" wx:for="{{stats.categoryRatio}}" wx:key="name">
+      <view class="bar-label">{{item.name}}</view>
+      <view class="bar-track">
+        <view class="bar-fill bar-green" style="width:{{item.width}}%"></view>
+      </view>
+      <view class="bar-num">{{item.percent}}%</view>
+    </view>
+  </view>
+
+  <!-- 借阅趋势（柱状图） -->
+  <view class="card">
+    <view class="section-header"><text class="section-title">借阅趋势（近 8 个月）</text></view>
+    <view class="trend">
+      <view class="trend-col" wx:for="{{stats.trend}}" wx:key="month">
+        <view class="trend-num">{{item.value}}</view>
+        <view class="trend-track">
+          <view class="trend-bar" style="height:{{item.height}}%"></view>
+        </view>
+        <view class="trend-month">{{item.month}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索热词 -->
+  <view class="card">
+    <view class="section-header"><text class="section-title">搜索热词 Top6</text></view>
+    <view class="word-row" wx:for="{{stats.hotSearchWords}}" wx:key="word">
+      <text class="word-rank">{{index + 1}}</text>
+      <text class="word-name">{{item.word}}</text>
+      <text class="muted">{{item.count}} 次</text>
+    </view>
+  </view>
+
+  <!-- 采购建议 -->
+  <view class="card">
+    <view class="section-header"><text class="section-title">📌 采购建议</text></view>
+    <view class="advice-item" wx:for="{{stats.purchaseAdvice}}" wx:key="title">
+      <view class="row-between">
+        <text class="advice-title">{{item.title}}　{{item.author}}</text>
+        <text class="tag {{item.level === '高' ? 'tag-red' : 'tag-orange'}}">优先级{{item.level}}</text>
+      </view>
+      <view class="muted advice-reason">{{item.reason}}</view>
+    </view>
+  </view>
+  </block>
+
+</view>

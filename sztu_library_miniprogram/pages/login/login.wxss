@@ -1,0 +1,70 @@
+/* pages/login/login.wxss —— 深技大统一认证风格 */
+.auth {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0B4DA2 0%, #2E7BF6 32%, #F5F7FA 32%, #F5F7FA 100%);
+  padding: 0 40rpx 60rpx;
+}
+
+/* 顶部校徽区 */
+.auth-header { padding: 70rpx 0 50rpx; text-align: center; color: #FFFFFF; }
+.logo {
+  width: 120rpx; height: 120rpx; line-height: 120rpx;
+  margin: 0 auto 20rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.18);
+  border: 2rpx solid rgba(255, 255, 255, 0.45);
+  font-size: 34rpx; font-weight: 700; letter-spacing: 2rpx;
+}
+.school { font-size: 40rpx; font-weight: 600; letter-spacing: 4rpx; }
+.sub { font-size: 24rpx; opacity: 0.85; margin-top: 10rpx; }
+
+/* 卡片 */
+.auth-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+  box-shadow: 0 10rpx 40rpx rgba(11, 77, 162, 0.15);
+}
+.card-title { font-size: 34rpx; font-weight: 600; margin-bottom: 30rpx; color: #1F2329; }
+
+.input-line {
+  display: flex; align-items: center;
+  border-bottom: 2rpx solid #E5E8EE;
+  padding: 20rpx 0;
+  margin-bottom: 20rpx;
+}
+.input-icon { font-size: 30rpx; margin-right: 16rpx; }
+.input { flex: 1; font-size: 30rpx; height: 44rpx; }
+.ph { color: #B8BEC7; }
+.eye { font-size: 28rpx; padding: 0 8rpx; }
+
+.agree { display: flex; align-items: center; margin: 24rpx 0 36rpx; }
+.agree-box {
+  width: 32rpx; height: 32rpx; line-height: 30rpx;
+  text-align: center; font-size: 22rpx;
+  border: 2rpx solid #C9CFD8; border-radius: 6rpx;
+  color: transparent; margin-right: 12rpx;
+}
+.agree-box.checked { background: #0B4DA2; border-color: #0B4DA2; color: #FFFFFF; }
+.agree-text { font-size: 24rpx; color: #6B7280; }
+
+/* 演示账号快捷填充 */
+.quick { display: flex; justify-content: space-between; margin-top: 28rpx; }
+.quick-btn {
+  font-size: 24rpx; color: #0B4DA2;
+  background: #EEF3FB; border-radius: 999rpx;
+  padding: 10rpx 24rpx;
+}
+
+/* 免责声明 */
+.notice {
+  margin-top: 40rpx;
+  background: #FFF9EC;
+  border: 2rpx solid #F5DFA8;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+.notice-title { font-size: 26rpx; font-weight: 600; color: #B7791F; margin-bottom: 10rpx; }
+.notice-text { font-size: 22rpx; color: #8A6D3B; line-height: 1.7; }
+.strong { color: #D93636; font-weight: 600; }
+.notice-account { font-size: 22rpx; color: #6B7280; margin-top: 14rpx; }
