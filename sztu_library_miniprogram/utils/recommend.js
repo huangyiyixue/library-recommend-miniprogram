@@ -171,6 +171,7 @@ function recommend(user, data, opts) {
   const notNegative = scored.filter(function (b) { return !b.negative })
   const fallback = notNegative.length >= 3 ? notNegative : scored
   const list = positive.length >= 3 ? positive : fallback.slice(0, 8)
+  console.log('[推荐] 打分完成，候选', list.length, '首本理由', list[0] && list[0].reason)
   return list.slice(offset, offset + limit)
 }
 

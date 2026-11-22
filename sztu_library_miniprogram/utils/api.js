@@ -25,6 +25,7 @@ function login(id, password) {
  * 【占位】获取个性化推荐书单 -> 未来：GET /api/recommend
  */
 function getRecommendations(user, data, opts) {
+  console.log('[推荐] 入参', { hasUser: !!user, hasPrefs: !!(data && data.preferences), limit: opts && opts.limit })
   return delay(350).then(function () {
     return recommend.recommend(user, data, opts)
   })

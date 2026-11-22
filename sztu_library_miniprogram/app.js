@@ -26,6 +26,7 @@ App({
    * @returns {{ok:boolean, role?:string, msg?:string}}
    */
   login(id, pwd) {
+    console.log('[登录] 收到请求，账号字段已提供:', !!id)
     const acc = mock.ACCOUNTS[id]
     if (!acc || acc.password !== pwd) {
       return { ok: false, msg: '学号或密码错误，请重试（模拟校验）' }
