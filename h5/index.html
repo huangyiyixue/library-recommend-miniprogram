@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>深技大图书馆 · 同结构 H5 备用版</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div id="app">
+    <header id="navbar" class="navbar"><span id="nav-title">深技大图书馆</span></header>
+
+    <main id="views">
+      <!-- 视图 1：登录（对应 pages/login/login） -->
+      <section id="view-login" class="view view-login">
+        <div class="login-brand">
+          <div class="login-logo">SZTU</div>
+          <h1>深圳技术大学</h1>
+          <p>统一身份认证平台 · 图书馆系统</p>
+        </div>
+        <div class="login-card">
+          <h2>账号登录</h2>
+          <div class="input-line"><input id="login-id" type="text" placeholder="请输入学号 / 工号" autocomplete="off"></div>
+          <div class="input-line pwd-line">
+            <input id="login-pwd" type="password" placeholder="请输入密码" autocomplete="off">
+            <button id="toggle-pwd" class="eye" type="button">👁</button>
+          </div>
+          <label class="agree"><input id="login-agree" type="checkbox" checked> 我已阅读并同意《图书馆服务协议》（模拟）</label>
+          <button id="login-submit" class="btn-primary" type="button">登 录</button>
+          <div class="quick-accounts">
+            <button data-fill="student" type="button">学生体验账号</button>
+            <button data-fill="admin" type="button">管理员体验账号</button>
+          </div>
+          <div class="login-notice">
+            <strong>⚠️ 原型说明</strong>
+            <p>本页面为课程作业原型，不会对接学校真实统一认证接口，不收集任何真实学号与密码；⚠️ 账号校验、角色门禁与看板统计均为本地模拟实现。</p>
+            <p class="demo-hint">演示账号与口令：见本地配置</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 视图 2：学生首页（对应 pages/student/home/home） -->
+      <section id="view-home" class="view">
+        <div class="hero">
+          <div class="hero-name">你好，<span id="home-username">同学</span> 👋</div>
+          <div class="hero-meta" id="home-usermeta"></div>
+          <button id="open-pref" class="btn-plain hero-pref" type="button">偏好设置</button>
+        </div>
+        <div class="section-header"><div class="section-title">为你推荐</div><button id="refresh-rec" class="section-more" type="button">换一批 ↻</button></div>
+        <div class="hint" id="home-hint"></div>
+        <div id="home-recs" class="book-list"></div>
+        <div class="section-header"><div class="section-title">热门榜单</div><span class="section-more" id="hot-count"></span></div>
+        <div id="home-hot" class="book-list"></div>
+      </section>
+
+      <!-- 视图 3：搜索（对应 pages/student/search/search） -->
+      <section id="view-search" class="view">
+        <div class="search-bar">
+          <input id="search-input" type="text" placeholder="搜索书名 / 作者 / 分类" autocomplete="off">
+          <button id="search-submit" class="btn-primary btn-sm" type="button">搜索</button>
+        </div>
+        <div id="search-history-box">
+          <div class="section-header"><div class="section-title">历史搜索</div><button id="clear-history" class="section-more" type="button">一键清空</button></div>
+          <div id="search-history" class="chips"></div>
+        </div>
+        <div class="section-header"><div class="section-title">🔥 大家都在搜</div></div>
+        <div id="search-hotwords" class="chips"></div>
+        <div id="search-result-head" class="section-header hidden"><div class="section-title">搜索结果</div><span id="search-count" class="section-more"></span></div>
+        <div id="search-results" class="book-list"></div>
+        <div id="search-empty" class="empty hidden">没有找到相关书籍，换个关键词试试～</div>
+      </section>
+
+      <!-- 视图 4：详情（对应 pages/student/detail/detail） -->
+      <section id="view-detail" class="view">
+        <div id="detail-body"></div>
+        <div id="detail-bar" class="detail-bar">
+          <button id="detail-back" class="btn-plain" type="button">返回列表</button>
+          <button id="detail-fav" class="btn-primary" type="button">收藏</button>
+        </div>
+      </section>
+
+      <!-- 视图 5：我的（对应 pages/student/mine/mine） -->
+      <section id="view-mine" class="view">
+        <div class="profile">
+          <div class="avatar" id="mine-avatar">学</div>
+          <div class="profile-info">
+            <div class="profile-name" id="mine-name"></div>
+            <div class="profile-meta" id="mine-meta"></div>
+          </div>
+          <button id="mine-logout" class="btn-plain btn-sm" type="button">退出登录</button>
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="fav" type="button">我的收藏 ♥（<span id="fav-count">0</span>）</button>
+          <button class="tab" data-tab="borrow" type="button">历史借阅（<span id="borrow-count">0</span>）</button>
+        </div>
+        <div id="mine-fav" class="book-list"></div>
+        <div id="mine-borrow" class="book-list hidden"></div>
+        <div class="section-header"><div class="section-title">阅读偏好</div><div><button id="mine-edit-pref" class="section-more" type="button">修改</button> <button id="mine-reset-pref" class="section-more danger" type="button">重置</button></div></div>
+        <div id="mine-pref" class="pref-summary"></div>
+        <div class="section-header"><div class="section-title">历史搜索记录</div><button id="mine-clear-history" class="section-more" type="button">一键清空</button></div>
+        <div id="mine-history" class="chips"></div>
+      </section>
+
+      <!-- 视图 6：管理端看板（对应 pages/admin/dashboard/dashboard） -->
+      <section id="view-dashboard" class="view">
+        <div class="dash-head"><div><div class="title-lg">图书馆数据看板</div><div class="muted">⚠️ 静态统计（模拟数据） · 采购决策辅助 · <span id="dash-user"></span></div></div><button id="dash-logout" class="btn-plain btn-sm" type="button">退出登录</button></div>
+        <div class="card">
+          <div class="section-header"><div class="section-title">筛选维度</div><button id="dash-reset" class="section-more" type="button">重置</button></div>
+          <div class="filters"><label>学院：<select id="dash-college"></select></label><label>年级：<select id="dash-grade"></select></label></div>
+          <div class="muted" id="dash-current"></div>
+        </div>
+        <div id="dash-body"></div>
+      </section>
+    </main>
+
+    <!-- 偏好弹窗（home 与 mine 共用，文案/校验按来源切换） -->
+    <div id="pref-mask" class="mask hidden">
+      <div class="modal">
+        <h3 id="pref-title">完善阅读偏好</h3>
+        <p class="muted" id="pref-subtitle"></p>
+        <div class="modal-scroll" id="pref-chips"></div>
+        <div class="modal-actions"><button id="pref-cancel" class="btn-plain" type="button">跳过</button><button id="pref-save" class="btn-primary" type="button">保存偏好</button></div>
+      </div>
+    </div>
+
+    <!-- 底部导航（仅 home / search / mine 显示） -->
+    <nav id="tabbar" class="tabbar hidden">
+      <button class="tabbar-item active" data-view="home" type="button">推荐</button>
+      <button class="tabbar-item" data-view="search" type="button">搜索</button>
+      <button class="tabbar-item" data-view="mine" type="button">我的</button>
+    </nav>
+
+    <div id="toast" class="toast hidden"></div>
+    <div id="modal" class="mask hidden">
+      <div class="modal modal-sm"><h3 id="modal-title"></h3><p id="modal-content"></p><div class="modal-actions"><button id="modal-cancel" class="btn-plain" type="button">取消</button><button id="modal-ok" class="btn-primary" type="button">确定</button></div></div>
+    </div>
+    <div id="loading" class="loading-mask hidden"><div class="loading-box" id="loading-text">加载中...</div></div>
+  </div>
+
+  <script src="./js/data.js"></script>
+  <script src="./js/recommend.js"></script>
+  <script src="./js/store.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
